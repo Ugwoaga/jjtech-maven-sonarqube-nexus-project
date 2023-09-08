@@ -102,19 +102,19 @@ pipeline {
         }
     }
 
-        //           stage('Upload artifact to Nexus') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-        //         sh "sed -i \"s/.*<username><\\/username>/<username>$USER_NAME<\\/username>/g\" ${WORKSPACE}/settings.xml"
-        //         sh "sed -i \"s/.*<password><\\/password>/<password>$PASSWORD<\\/password>/g\" ${WORKSPACE}/settings.xml"
-        //         sh 'sudo cp ${WORKSPACE}/settings.xml /var/lib/jenkins/.m2'
-        //         dir('JavaWebApp/') {                
-        //         sh 'mvn clean deploy -DskipTests'
-        //         }
-        //       }
+        stage('Upload artifact to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
+                sh "sed -i \"s/.*<username><\\/username>/<username>$USER_NAME<\\/username>/g\" ${WORKSPACE}/settings.xml"
+                sh "sed -i \"s/.*<password><\\/password>/<password>$PASSWORD<\\/password>/g\" ${WORKSPACE}/settings.xml"
+                sh 'sudo cp ${WORKSPACE}/settings.xml /var/lib/jenkins/.m2'
+                dir('JavaWebApp/') {                
+                sh 'mvn clean deploy -DskipTests'
+                }
+              }
                
-        //     }
-        // }
+            }
+        }
 
           stage('Upload artifact to Nexus') {
             steps {
